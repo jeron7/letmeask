@@ -40,7 +40,7 @@
         border-radius: 8px;
         padding: 0 16px;
         background: $white;
-        border: 1px solid $light-gray;
+        border: 1px solid $lighter-gray;
       }
 
       button {
@@ -92,7 +92,7 @@
 
   .separator {
     font-size: 14px;
-    color: $light-gray;
+    color: $lighter-gray;
 
     margin: 32px 0;
     display: flex;
@@ -103,7 +103,7 @@
       content: "";
       flex: 1;
       height: 1px; 
-      background: $light-gray;
+      background: $lighter-gray;
       margin-right: 16px;
     }
 
@@ -111,7 +111,7 @@
       content: "";
       flex: 1;
       height: 1px; 
-      background: $light-gray;
+      background: $lighter-gray;
       margin-left: 16px;
     }
   }
