@@ -1,0 +1,78 @@
+import { FormEvent, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
+import { database } from '../services/firebase';
+import { useAuth } from '../hooks/useAuth';
+
+import { Button } from '../components/Button';
+import { AsideIllustration } from '../components/AsideIllustration';
+
+import logoImg from '../assets/images/logo.svg';
+import googleIconImg from '../assets/images/google-icon.svg';
+import enterIcon from '../assets/images/enter.svg';
+
+import '../styles/auth.scss';
+
+export function Home() {
+  const history = useHistory();
+  const { user, signInWithGoogle } = useAuth();
+  const [roomCode, setRoomCode] = useState('');
+
+  async function handleCreateRoom() {
+    if (!user) {
+      await signInWithGoogle();
+    }
+    
+    history.push('/rooms/new');
+  }
+
+  async function handleJoinRoom(event: FormEvent) {
+    event.preventDefault();
+
+    if (roomCode.trim() === '') {
+      return;
+    }
+
+    const roomRef = await database.ref(`rooms/${roomCode}`).get();
+
+    if (!roomRef.exists()) {
+      toast.error("Sala não existe!")
+      return;
+    }
+
+    if (roomRef.val().endedAt) {
+      toast.error('A sala já foi fechada!')
+      return;
+    }
+
+    history.push(`/rooms/${roomCode}`);
+  }
+
+  return (
+    <div id="page-auth">
+      <AsideIllustration />
+      <main>
+        <div className="main-content">
+          <img src={ logoImg } alt="Letmeask"/>
+          <button onClick={handleCreateRoom} className="create-room">
+            <img src={ googleIconImg } alt="Logo do Google" />
+            Crie sua sala com o Google
+          </button>
+          <div className="separator">ou entre em uma sala</div>
+          <form onSubmit={handleJoinRoom}>
+            <input 
+              type="text" 
+              placeholder="Digite o código da sala"
+              onChange={ event => setRoomCode(event.target.value) }
+            />
+            <Button type="submit">
+              <img src={ enterIcon } alt="Entrar na sala"/>
+              Entrar na sala
+            </Button>
+          </form>
+        </div>
+      </main>
+    </div>
+  );
+}
