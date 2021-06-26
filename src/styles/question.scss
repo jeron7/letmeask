@@ -10,6 +10,20 @@
     margin-top: 8px
   }
 
+  &.highlighted {
+    background: $lighter-purple;
+    border: 1px solid $purple;
+    
+    footer .user-info span {
+      color: $darker-gray;
+    }
+  }
+  
+  &.answered {
+    background: $dark-white;
+    opacity: 0.6;
+  }
+
   p {
     color: $darker-gray;
   }
@@ -35,6 +49,11 @@
         color: $dark-gray;
         font-size: 14px;
       }
+    }
+
+    > div {
+      display: flex;
+      gap: 16px;
     }
 
     button {
